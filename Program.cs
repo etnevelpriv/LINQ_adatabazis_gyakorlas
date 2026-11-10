@@ -4,13 +4,67 @@ namespace LINQ_adtabazis_feladat;
 
 internal class Program
 {
+    private static Database database = new();
+    private static List<Diak> diakok = database.DiakokBetoltese();
+
+    private static void ClassAvgByClassname()
+    {
+        Console.WriteLine("\n1. feladat");
+        var eredmeny = diakok
+            .GroupBy(diak => diak.ClassName)
+            .Select(csoport => new { Osztaly = csoport.Key, Atlag = csoport.Average(diak => diak.Average) });
+        foreach (var adat in eredmeny)
+        {
+            Console.WriteLine($"{adat.Osztaly} : {adat.Atlag:f2}");
+        }
+    }
+
+    private static void RankDescAvgByClassnameGroup()
+    {
+        Console.WriteLine("\n2. feladat");
+        var eredmeny = diakok
+            .GroupBy(diak => diak.ClassName)
+            .Select(csoport => new { Osztaly = csoport.Key, Atlag = csoport.Average(diak => diak.Average) })
+            .OrderByDescending(csoport => csoport.Atlag);
+        foreach (var adat in eredmeny)
+        {
+            Console.WriteLine($"{adat.Osztaly} : {adat.Atlag:f2}");
+        }
+
+    }
+
+    private static void MaxStudentAvgGroupByClassname()
+    {
+        Console.WriteLine("\n3. feladat");
+        var eredmeny = diakok
+            .GroupBy(diak => diak.ClassName)
+            .Select(csoport =>
+            {
+                double legjobbAtlag = csoport.Max(diak => diak.Average);
+                return csoport
+                    .Where(diak => diak.Average == legjobbAtlag)
+                    .Select(diak => new
+                    {
+                        diak.Name,
+                        diak.ClassName,
+                        diak.Average
+                    }
+                    );
+            }
+            );
+        foreach (var adat in eredmeny)
+        {
+            foreach (var adattag in adat)
+            {
+                Console.WriteLine(adattag);
+            }
+        }
+    }
+
     private static void Main()
     {
-        Database database = new();
-        List<Diak> diakok = database.DiakokBetoltese();
-        foreach(Diak diak in diakok)
-        {
-            Console.WriteLine(diak.Name);
-        }
+        ClassAvgByClassname();
+        RankDescAvgByClassnameGroup();
+        MaxStudentAvgGroupByClassname();
     }
 }

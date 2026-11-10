@@ -61,10 +61,27 @@ internal class Program
         }
     }
 
+    private static void StatWhitStudentsAge()
+    {
+        Console.WriteLine("\n4. feladat");
+        var eredmeny = diakok
+            .GroupBy(diak => diak.Age)
+            .Select(csoport => new
+            {
+                Age = csoport.Key,
+                Counter = csoport.Count()
+            });
+        foreach (var adat in eredmeny)
+        {
+            Console.WriteLine($"{adat.Age} : {adat.Counter}");
+        }
+    }
+
     private static void Main()
     {
         ClassAvgByClassname();
         RankDescAvgByClassnameGroup();
         MaxStudentAvgGroupByClassname();
+        StatWhitStudentsAge();
     }
 }

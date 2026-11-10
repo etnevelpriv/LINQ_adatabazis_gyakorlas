@@ -77,11 +77,37 @@ internal class Program
         }
     }
 
+    private static void StudentsWithUnderTwoAvg()
+    {
+        Console.WriteLine("\n5. feladat");
+        var eredmeny = diakok
+            .Where(
+                diak => diak.Average < 2
+            )
+            .Select(diak => new
+            {
+                Name = diak.Name
+            });
+        if (eredmeny.Count() == 0)
+        {
+            Console.WriteLine("Nincs olyan diak, aki 2-es atlag alatt lenne");
+        }
+        else
+        {
+            foreach (var adat in eredmeny)
+            {
+                Console.WriteLine(adat.Name);
+            }
+        }
+    }
+
     private static void Main()
     {
         ClassAvgByClassname();
         RankDescAvgByClassnameGroup();
         MaxStudentAvgGroupByClassname();
         StatWhitStudentsAge();
+        // Otodik feladat ugyan az, mint a harmadik
+        StudentsWithUnderTwoAvg();
     }
 }

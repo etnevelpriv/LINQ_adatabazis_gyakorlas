@@ -9,9 +9,9 @@ public class Diak
     public string Name {get;private set;}
     public int Age {get;private set;}
     public string ClassName {get;private set;}
-    public float Average {get;private set;}
+    public double Average {get;private set;}
 
-    public Diak (int id, string name, int age, string classname, float average)
+    public Diak (int id, string name, int age, string classname, double average)
     {
         this.Id = id;
         this.Name = name;
